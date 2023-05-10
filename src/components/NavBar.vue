@@ -3,13 +3,13 @@
     <div class="nav-bar">
       <div class="nav-left">
         <router-link to="/products" id="products-link">
-          <h1>MiStore</h1>
+          <h1>MECUTI</h1>
         </router-link>
       </div>
 
       <div class="nav-center">
         <router-link to="/products">Trang chủ</router-link>
-        <router-link to="/orther">Lịch sử</router-link>
+        <router-link to="/order">Hóa đơn</router-link>
         <router-link to="/cart" id="cart-link">Giỏ hàng</router-link>
         <form class="search" @submit.prevent="search">
           <input
@@ -22,6 +22,9 @@
             <fa class="icon" icon="fa-search" />
           </button>
         </form>
+        <router-link v-if="loggedIn && user.result.isAdmin" to="/admin"
+          >Quản lý</router-link
+        >
         <a v-if="loggedIn">{{ user.result.name }}</a>
         <a v-if="loggedIn" @click="logout">
           <fa icon="fa-solid fa-right-from-bracket" size="xl" />
@@ -123,8 +126,8 @@ export default {
   font-size: 18px;
 }
 .btn-search {
-  width: 15px;
-  height: 15px;
+  width: 34px;
+  height: 34px;
   border-radius: 0 10px 10px 0;
   border: none;
   display: flex;
@@ -139,6 +142,7 @@ export default {
 .search {
   display: flex;
   flex-direction: row;
+  margin: 15px 0 0 0;
 }
 .search input {
   border-radius: 10px 0 0 10px;

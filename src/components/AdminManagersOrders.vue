@@ -1,20 +1,20 @@
 <template>
   <div>
-    <h1>Đơn hàng của bạn</h1>
+    <h1>Tất cả đơn hàng</h1>
     <div class="order-list">
-      <div v-for="orther in orthers" :key="orther._id" class="order-item">
-        <div class="order-date" @click="showDetail(orther)">
-          {{ orther.date }}
+      <div v-for="order in orders" :key="order._id" class="order-item">
+        <div class="order-date" @click="showDetail(order)">
+          {{ order.date }}
         </div>
-        <div class="order-total">Tổng tiền: {{ orther.totalPrice }}.000đ</div>
-        <div class="order-detail" :class="{ visible: orther.showDetail }">
-          <div class="order-detail-item">Name: {{ orther.name }}</div>
+        <div class="order-total">Tổng tiền: {{ order.totalPrice }}đ</div>
+        <div class="order-detail" :class="{ visible: order.showDetail }">
+          <div class="order-detail-item">Name: {{ order.name }}</div>
 
-          <div class="order-detail-item">Email: {{ orther.email }}</div>
-          <div class="order-detail-item">Addres: {{ orther.address }}</div>
+          <div class="order-detail-item">Email: {{ order.email }}</div>
+          <div class="order-detail-item">Addres: {{ order.address }}</div>
           <div
             class="order-detail-item"
-            v-for="item in orther.cartItems"
+            v-for="item in order.cartItems"
             :key="item._id"
           >
             <span>{{ item.name }}</span>
@@ -30,7 +30,7 @@
 import axios from "axios";
 
 export default {
-  name: "OrtherPage",
+  name: "manage-orders",
   props: {
     user: {
       type: Object,
@@ -39,16 +39,14 @@ export default {
   },
   data() {
     return {
-      orthers: [],
+      orders: [],
     };
   },
   async created() {
     try {
-      const response = await axios.get(
-        `/api/users/${this.user.result.id}/orthers`
-      );
-      this.orthers = response.data.map((orther) => ({
-        ...orther,
+      const response = await axios.get(`/api/orders`);
+      this.orders = response.data.map((order) => ({
+        ...order,
         showDetail: false,
       }));
     } catch (error) {
@@ -56,8 +54,8 @@ export default {
     }
   },
   methods: {
-    showDetail(orther) {
-      orther.showDetail = !orther.showDetail;
+    showDetail(order) {
+      order.showDetail = !order.showDetail;
     },
   },
 };

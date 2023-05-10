@@ -3,9 +3,13 @@
     <h1>Giỏ hàng</h1>
     <CartsList
       :cartItems="cartItems"
-      v-on:remove-from-cart="($event) => removeFromCart($event)"
+      :user="this.user"
+      :removeFromCart="removeFromCart"
+      :loadData="loadData"
     />
-    <h3 id="total-price">Tổng tiền: {{ totalPrice }}.000đ</h3>
+
+    <h3 id="total-price">Tổng tiền: {{ totalPrice }}đ</h3>
+
     <router-link to="/checkout"
       ><button id="checkout-button">Xác nhận đơn hàng</button></router-link
     >
@@ -34,7 +38,8 @@ export default {
   computed: {
     totalPrice() {
       const sum = this.cartItems.reduce(
-        (sum, item) => sum + parseFloat(item.price),
+        (sum, item) =>
+          sum + parseFloat(item.product?.price) * parseInt(item.quantity),
         0
       );
       const total = sum > 999 ? sum / 1000 : sum;
@@ -42,18 +47,31 @@ export default {
       return total.toFixed(3).toString();
     },
   },
+  mounted() {
+    this.loadData();
+  },
   methods: {
-    async removeFromCart(productId) {
-      const result = await axios.delete(
-        `/api/users/${this.user.result.id}/cart/${productId}`
+    async removeFromCart(id) {
+      console.log(id);
+      const response = await axios.delete(
+        `/api/users/${this.user.result.id}/cart/${id}`
       );
-      this.cartItems = result.data;
+      if (response.status === 200) {
+        // Xóa sản phẩm khỏi danh sách cartItems
+        const index = this.cartItems.findIndex((i) => i.id === id);
+        this.cartItems.splice(index, 1);
+      }
+    },
+    async loadData() {
+      const result = await axios.get(`/api/users/${this.user.result.id}/cart`);
+      const cartItems = result.data;
+      this.cartItems = cartItems;
+      console.log(cartItems);
     },
   },
+
   async created() {
-    const result = await axios.get(`/api/users/${this.user.result.id}/cart`);
-    const cartItems = result.data;
-    this.cartItems = cartItems;
+    await this.loadData();
   },
 };
 </script>

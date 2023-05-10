@@ -6,8 +6,9 @@ import NotFound from "../views/NotFound";
 import LoginPage from "../views/LoginPage";
 import SignupPage from "../views/SignupPage";
 import CheckoutPage from "../components/CheckoutPage";
-import OrtherPage from "../components/OrtherPage";
+import OrderPage from "../components/OrderPage";
 import SearchPage from "../views/SearchPage";
+import AdminManagers from "../views/AdminManagers";
 const routes = [
   {
     path: "/products",
@@ -47,6 +48,11 @@ const routes = [
     component: SignupPage,
   },
   {
+    path: "/admin",
+    name: "AdminManagers",
+    component: AdminManagers,
+  },
+  {
     path: "/search/:searchTerm",
     name: "SearchPage",
     component: SearchPage,
@@ -69,9 +75,9 @@ const routes = [
     },
   },
   {
-    path: "/orther",
-    name: "OrtherPage",
-    component: OrtherPage,
+    path: "/order",
+    name: "OrderPage",
+    component: OrderPage,
     props: {
       user: {
         type: Object,

@@ -7,7 +7,7 @@
         <span>{{ item.price }}đ</span>
       </li>
     </ul>
-    <h4 id="total-price">Tổng tiền: {{ this.totalPrice }}.000đ</h4>
+    <h4 id="total-price">Tổng tiền: {{ this.totalPrice }}đ</h4>
   </div>
 </template>
 

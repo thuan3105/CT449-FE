@@ -60,7 +60,7 @@ export default {
   },
   computed: {
     itemIsInCart() {
-      return this.cartItems.some((item) => item.id === this.product.id);
+      return this.cartItems.some((item) => item.product.id === this.product.id);
     },
   },
   methods: {
@@ -111,6 +111,7 @@ export default {
 
 img {
   width: 400px;
+  height: 400px;
 }
 
 #product-details {

@@ -61,7 +61,7 @@ export default {
         totalPrice: this.totalPrice,
       };
       console.log(formData);
-      await axios.post(`/api/users/${this.user.result.id}/orthers`, formData);
+      await axios.post(`/api/users/${this.user.result.id}/orders`, formData);
       this.showSuccessMessage = true;
       setTimeout(() => {
         this.$router.push("/");
